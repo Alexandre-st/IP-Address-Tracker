@@ -117,59 +117,79 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"app.js":[function(require,module,exports) {
-var api_key = "at_jX9101ryTipwYFz7Gt1q6gEYN9Y70";
-var theIcon = L.icon({
-  iconUrl: './images/icon-location.svg'
-});
+})({"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
 
-var fetchIpAdress = function fetchIpAdress() {
-  fetch("https://geo.ipify.org/api/v1?apiKey=".concat(api_key)).then(function (response) {
-    return response.json();
-  }).then(function (ipAddress) {
-    console.log(ipAddress);
-    showResult(ipAddress);
-  });
-};
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
 
-fetchIpAdress(); // Création de la liste des données à afficher
+  return bundleURL;
+}
 
-var showResult = function showResult(ipAddress) {
-  var resultIp = document.querySelector('.search-content-address');
-  var resultLocation = document.querySelector('.search-content-location');
-  var resultTimezone = document.querySelector('.search-content-timezone');
-  var resultIsp = document.querySelector('.search-content-isp');
-  var ip = document.createElement('p');
-  ip.innerText = ipAddress.ip;
-  var location = document.createElement('p');
-  location.innerText = "".concat(ipAddress.location.city, ", ").concat(ipAddress.location.country, " ").concat(ipAddress.location.postalCode);
-  var timezone = document.createElement('p');
-  timezone.innerText = ipAddress.location.timezone;
-  var isp = document.createElement('p');
-  isp.innerText = ipAddress.isp;
-  var latitude = ipAddress.location.lat;
-  var longitude = ipAddress.location.lng;
-  mymap.setView([latitude, longitude]);
-  L.marker([latitude, longitude], {
-    icon: theIcon
-  }).addTo(mymap);
-  resultIp.appendChild(ip);
-  resultLocation.appendChild(location);
-  resultTimezone.appendChild(timezone);
-  resultIsp.appendChild(isp);
-}; // To configure the map for the IP
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
 
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
 
-var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibXNoZWxsZXk5MSIsImEiOiJja256M3JhbHowMjFuMzNwOTE5ODN4enJpIn0.6WYBfIPtzcbjvfQ1Y9fP5A', {
-  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-  maxZoom: 18,
-  id: 'mapbox/streets-v11',
-  tileSize: 512,
-  zoomOffset: -1,
-  accessToken: 'your.mapbox.access.token'
-}).addTo(mymap);
-},{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)?\/[^/]+(?:\?.*)?$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"styles.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"./images/pattern-bg.png":[["pattern-bg.17dea9c4.png","images/pattern-bg.png"],"images/pattern-bg.png"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -373,5 +393,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","app.js"], null)
-//# sourceMappingURL=/app.c328ef1a.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js"], null)
+//# sourceMappingURL=/styles.8986bff4.js.map

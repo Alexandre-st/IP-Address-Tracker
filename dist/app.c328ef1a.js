@@ -119,46 +119,44 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"app.js":[function(require,module,exports) {
 var api_key = "at_jX9101ryTipwYFz7Gt1q6gEYN9Y70";
+var URL = "https://geo.ipify.org/api/v1?apiKey=".concat(api_key);
 var theIcon = L.icon({
   iconUrl: './images/icon-location.svg'
 });
 
 var fetchIpAdress = function fetchIpAdress() {
-  fetch("https://geo.ipify.org/api/v1?apiKey=".concat(api_key)).then(function (response) {
+  fetch(URL).then(function (response) {
     return response.json();
   }).then(function (ipAddress) {
-    console.log(ipAddress);
-    showResult(ipAddress);
+    // console.log(ipAddress);
+    // To create a list of the data to show
+    var resultIp = document.querySelector('.search-content-address p');
+    resultIp.innerText = ipAddress.ip;
+    var resultLocation = document.querySelector('.search-content-location p ');
+    resultLocation.innerText = "".concat(ipAddress.location.city, ", ").concat(ipAddress.location.country, " ").concat(ipAddress.location.postalCode);
+    var resultTimezone = document.querySelector('.search-content-timezone p');
+    resultTimezone.innerText = ipAddress.location.timezone;
+    var resultIsp = document.querySelector('.search-content-isp p');
+    resultIsp.innerText = ipAddress.isp; // To add to the map, the good information for the map and add the icon location
+
+    var latitude = ipAddress.location.lat;
+    var longitude = ipAddress.location.lng;
+    mymap.setView([latitude, longitude]);
+    L.marker([latitude, longitude], {
+      icon: theIcon
+    }).addTo(mymap);
   });
 };
 
-fetchIpAdress(); // Création de la liste des données à afficher
+fetchIpAdress(); // To search a new ip address
 
-var showResult = function showResult(ipAddress) {
-  var resultIp = document.querySelector('.search-content-address');
-  var resultLocation = document.querySelector('.search-content-location');
-  var resultTimezone = document.querySelector('.search-content-timezone');
-  var resultIsp = document.querySelector('.search-content-isp');
-  var ip = document.createElement('p');
-  ip.innerText = ipAddress.ip;
-  var location = document.createElement('p');
-  location.innerText = "".concat(ipAddress.location.city, ", ").concat(ipAddress.location.country, " ").concat(ipAddress.location.postalCode);
-  var timezone = document.createElement('p');
-  timezone.innerText = ipAddress.location.timezone;
-  var isp = document.createElement('p');
-  isp.innerText = ipAddress.isp;
-  var latitude = ipAddress.location.lat;
-  var longitude = ipAddress.location.lng;
-  mymap.setView([latitude, longitude]);
-  L.marker([latitude, longitude], {
-    icon: theIcon
-  }).addTo(mymap);
-  resultIp.appendChild(ip);
-  resultLocation.appendChild(location);
-  resultTimezone.appendChild(timezone);
-  resultIsp.appendChild(isp);
-}; // To configure the map for the IP
-
+var search = document.querySelector('.search-arrow');
+search.addEventListener('click', function (evt) {
+  evt.preventDefault();
+  var inputValue = document.querySelector('input').value;
+  URL = "https://geo.ipify.org/api/v1?apiKey=".concat(api_key, "&ipAddress=").concat(inputValue);
+  fetchIpAdress();
+}); // To configure the map for the IP
 
 var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibXNoZWxsZXk5MSIsImEiOiJja256M3JhbHowMjFuMzNwOTE5ODN4enJpIn0.6WYBfIPtzcbjvfQ1Y9fP5A', {
@@ -197,7 +195,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52484" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58789" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

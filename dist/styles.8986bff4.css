@@ -88,7 +88,6 @@ body {
   font-size: 12px;
   color: hsl(0, 0%, 59%);
   font-weight: 700;
-
   text-transform: uppercase;
   letter-spacing: 1.75px;
 }
@@ -104,6 +103,62 @@ body {
 #mapid {
   height: 80vh;
   z-index: 1;
+}
+
+@media screen and (max-width: 1000px) {
+  .search-content {
+    max-width: 800px;
+  }
+  .search-content-location,
+  .search-content-timezone,
+  .search-content-isp {
+    padding-left: 15px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .search-content {
+    flex-direction: column;
+    align-items: center;
+    min-width: 327px;
+    margin: -100px auto;
+    width: 80%;
+    text-align: center;
+    padding: 20px 20px;
+  }
+
+  .search-content-address h2 {
+    padding-top: 8px;
+  }
+
+  h2 {
+    padding-top: 26px;
+  }
+
+  .search {
+    min-width: 327px;
+    padding: 0 24px 0 24px;
+  }
+
+  .search input {
+    min-width: 269px;
+  }
+
+  .search-arrow {
+    width: 70px;
+  }
+
+  .search-content-location,
+  .search-content-timezone,
+  .search-content-isp {
+    padding: 0;
+    border: 0;
+  }
+
+  #mapid {
+    top: -160px;
+    height: 100vh;
+  }
 }
 
 

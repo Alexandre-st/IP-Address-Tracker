@@ -1,4 +1,4 @@
-# IP-Adress-Tracker
+# IP-Address-Tracker
 
 FrontEnd Mentor Challenge
 
@@ -6,8 +6,7 @@ FrontEnd Mentor Challenge
 
 ### Screenshot
 
-![]()
-![]()
+![](./images/IP-Address-Tracker.png)
 
 ## Avalaible scripts
 

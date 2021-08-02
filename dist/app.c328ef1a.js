@@ -148,9 +148,9 @@ var fetchIpAdress = function fetchIpAdress() {
     }).addTo(mymap);
     mymap.flyTo([latitude, longitude], 13);
   });
-}; // fetchIpAdress();
-// To search a new ip address
+};
 
+fetchIpAdress(); // To search a new ip address
 
 var search = document.querySelector('.search-arrow');
 search.addEventListener('click', function (evt) {
@@ -197,7 +197,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52058" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53133" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

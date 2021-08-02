@@ -8,6 +8,7 @@
 
 body {
   font-family: "Rubik", sans-serif;
+  height: 100vh;
 }
 
 .header {
@@ -39,6 +40,7 @@ body {
   border: none;
   outline: none;
   padding-left: 24px;
+  cursor: pointer;
 }
 
 .search-arrow {
@@ -50,6 +52,10 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.search-arrow:hover {
+  background: #3f3f3f;
 }
 
 .content {
@@ -124,7 +130,7 @@ body {
     margin: -100px auto;
     width: 80%;
     text-align: center;
-    padding: 20px 20px;
+    padding: 1rem 1rem;
   }
 
   .search-content-address h2 {
@@ -144,6 +150,14 @@ body {
     min-width: 269px;
   }
 
+  .search-content h2 {
+    font-size: 10px;
+  }
+
+  .search-content p {
+    font-size: 20px;
+  }
+
   .search-arrow {
     width: 70px;
   }
@@ -156,7 +170,7 @@ body {
   }
 
   #mapid {
-    top: -160px;
-    height: 100vh;
+    top: -115px;
+    height: 100%;
   }
 }

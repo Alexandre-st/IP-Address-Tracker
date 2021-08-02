@@ -120,8 +120,10 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"app.js":[function(require,module,exports) {
 var api_key = "at_jX9101ryTipwYFz7Gt1q6gEYN9Y70";
 var URL = "https://geo.ipify.org/api/v1?apiKey=".concat(api_key);
-var theIcon = L.icon({
-  iconUrl: './images/icon-location.svg'
+var myIcon = L.icon({
+  iconUrl: './images/icon-location.svg',
+  iconSize: [46, 56],
+  iconAnchor: [23, 56]
 });
 
 var fetchIpAdress = function fetchIpAdress() {
@@ -135,20 +137,20 @@ var fetchIpAdress = function fetchIpAdress() {
     var resultLocation = document.querySelector('.search-content-location p ');
     resultLocation.innerText = "".concat(ipAddress.location.city, ", ").concat(ipAddress.location.country, " ").concat(ipAddress.location.postalCode);
     var resultTimezone = document.querySelector('.search-content-timezone p');
-    resultTimezone.innerText = ipAddress.location.timezone;
+    resultTimezone.innerText = "UTC " + ipAddress.location.timezone;
     var resultIsp = document.querySelector('.search-content-isp p');
     resultIsp.innerText = ipAddress.isp; // To add to the map, the good information for the map and add the icon location
 
     var latitude = ipAddress.location.lat;
     var longitude = ipAddress.location.lng;
-    mymap.setView([latitude, longitude]);
     L.marker([latitude, longitude], {
-      icon: theIcon
+      icon: myIcon
     }).addTo(mymap);
+    mymap.flyTo([latitude, longitude], 13);
   });
-};
+}; // fetchIpAdress();
+// To search a new ip address
 
-fetchIpAdress(); // To search a new ip address
 
 var search = document.querySelector('.search-arrow');
 search.addEventListener('click', function (evt) {
@@ -195,7 +197,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58789" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52058" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

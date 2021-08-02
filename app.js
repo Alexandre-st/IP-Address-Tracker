@@ -33,7 +33,7 @@ const fetchIpAdress = () => {
   });
 };
 
-// fetchIpAdress();
+fetchIpAdress();
 
 // To search a new ip address
 const search = document.querySelector('.search-arrow');
